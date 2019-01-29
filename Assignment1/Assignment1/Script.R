@@ -1,3 +1,7 @@
+# Written by Bailey Miller 
+# 1/28/2019 7:02 PM
+
+
 # 1 Create a data frame based on the following data
 userHeightWeight <- data.frame(name = c("Joe", "Sue", "Jane", "Adam", "Bob", "Dale", "Kim", "Trish"),
                                height = c(167, 145, 155, 190, 164, 155, 152, 161),

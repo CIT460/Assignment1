@@ -7,9 +7,13 @@ userHeightWeight <- data.frame(name = c("Joe", "Sue", "Jane", "Adam", "Bob", "Da
                                height = c(167, 145, 155, 190, 164, 155, 152, 161),
                                weight = c(63, 55, 57, 71, 70, 52, 53, 61))
 
+userHeightWeight
+
 
 # 2 Use the first column of previous data frame and create a second data frame
 userGender <- data.frame(name = userHeightWeight[1], Sex = c("M", "F", "F", "M", "M", "M", "F", "F"))
+
+userGender
 
 # 3 Combine the two data frames into one data frame object
 users <- merge.data.frame(userHeightWeight, userGender)

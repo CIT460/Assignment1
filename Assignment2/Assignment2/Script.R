@@ -1,7 +1,9 @@
 # Installs
-install.packages(c("rvest", "dplyr"))
+install.packages(c("rvest", "dplyr", "readxl", "ggplot2"))
 library(dplyr)
 library(rvest)
+library(readxl)
+library(ggplot2)
 
 # Functions
 printf <- function(...) cat(sprintf(...))
@@ -39,8 +41,17 @@ PerYearAvg <- colSums(hurricanes[, c(3:13)])
 AvgPre2010 <- sum(AvgPre2010Yearly) / 5
 AvgPost2010 <- sum(AvgPost2010Yearly) / 6
 
-png( filename = "Hurricane_Avgs_Line_Chart.png")
-plot(AvgPre2010Yearly, type = "o", col = "red", xlab = "Yearly Average", ylab = "Number of Hurricanes", main = "Hurricane Yearly Averages Pre and Post 2010")
+png( filename = "hurricane_avgs_line_chart.png")
+plot(AvgPre2010Yearly, type = "o", col = "red", xlab = "Yearly Averages", ylab = "Number of Hurricanes", main = "Hurricane Yearly Averages Pre % Post 2010")
 lines(AvgPost2010Yearly, type = "o", col = "blue")
-# legend("topleft", legend = c("Line 1", "Line 2"), col = c("red", "blue"), lty = 1:2)
 dev.off()
+
+# PROBLEM 3
+overdose.data <- read_excel("opioid.xlsx", sheet = 1, skip = 6)
+
+
+totalDeaths <- overdose.data[1, 6:19]
+femaleDeath <- overdose.data[2, 6:19]
+maleDeath <- overdose.data[3, 6:19]
+
+overdose.deaths <- cbind(rbind(femaleDeath, maleDeath))

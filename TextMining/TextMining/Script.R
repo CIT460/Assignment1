@@ -62,3 +62,5 @@ tail(orderedr, 10)
 
 
 findFreqTerms(dtmr, lowfreq = 80)
+
+findAssocs(dtmr, "project", .3)

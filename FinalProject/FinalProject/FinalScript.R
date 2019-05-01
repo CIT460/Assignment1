@@ -10,9 +10,9 @@ library(readxl)
 df = read_excel ("CityList.xlsx")
 cityDataFrame <- data.frame()
 
-for(row in 1:nrow(df)) {
+for(row in 1:nrow(head(df, 5))) {
   
-city.url <- (df[1,3])
+city.url <- (df[row,3])
                          
 city.url<-as.character(city.url)
 city.ny <- html_session(city.url)
@@ -25,7 +25,10 @@ tourTraps <- city.ny %>% html_nodes('.article-links') %>% html_text()
 police <- city.ny %>% html_nodes('.police') %>% html_text() 
 divorceRates <- city.ny %>% html_nodes('.marital-info') %>% html_text()
 population <- city.ny  %>% html_nodes('.city-population') %>% html_text()
-medianIncome<-city.ny %>% html_nodes('.median-income') %>% html_text() 
+medianIncome <- city.ny %>% html_nodes('.median-income') %>% html_node('.hgraph') %>% html_text()
+
+medianIncomeData <- as.character(str_split(medianIncome, ":")[[1]])
+medianIncomeNum <- as.integer(gsub("[^0-9]", "", medianIncomeData[2]))
 
 
 hospitalData <- str_split(hospital, "\\)")[[1]]
@@ -62,18 +65,16 @@ populationData<-trimws(populationData, which = c("both"))
 populationData= as.numeric(gsub(",","",populationData))
 populationNum <- as.integer(populationData)
 
-addDF= data.frame(row.names = df[row,1],populationNum,divorceData,numNaturalDisasters,numTourTraps,numPolice,numHospital)
+addDF = data.frame(row.names = df[row, 1], populationNum, divorceData, numNaturalDisasters, numTourTraps, numPolice, numHospital, medianIncomeNum)
 cityDataFrame <- rbind(cityDataFrame,addDF)
 }
 
 
-hospitalOrder$happyScore<- NULL
+cityDataFrame$hospitalCapita <- (cityDataFrame$numHospital / cityDataFrame$populationNum)
 
-hospitalOrder$hospitalCapita <- (hospitalOrder$numHospital/hospitalOrder$populationNum)
-hospitalOrder <- data.frame(hospitalOrder[order(hospitalOrder$hospitalCapita),])
-hospitalOrder$happyScore <- c(1:65)
-hospitalOrder$policeCapita <- (hospitalOrder$numPolice/hospitalOrder$populationNum)
-hospitalOrder <- data.frame(hospitalOrder[order(hospitalOrder$policeCapita),])
+cityDataFrame$policeCapita <- (cityDataFrame$numPolice / cityDataFrame$populationNum)
+
+cityDataFrame
 
 hospitalOrder$happyScore<- (hospitalOrder$happyScore+c(1:65))
 

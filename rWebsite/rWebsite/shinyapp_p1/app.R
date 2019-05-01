@@ -5,7 +5,7 @@ server <- (function(input, output) {
 
     output$sinCurve <- renderPlot({
         plot(my_sin <- function(x) { return(input$amp * sin(x)) }
-            , -1 * input$x * pi, input$x * pi)
+            , input$minX * pi, input$maxX * pi)
     })
 })
 
@@ -14,8 +14,10 @@ ui <- shinyUI(pageWithSidebar(
   headerPanel("Sin Curve"),
 
   sidebarPanel(
-    numericInput("x", "Max X Value", value = 5,
-                min = 0, max = 100, step = 5),
+    numericInput("maxX", "Max X Value", value = 5,
+                min = -100, max = 100, step = 5),
+    numericInput("minX", "Min X Value", value = -5,
+                min = -100, max = 100, step = 5),
     numericInput("amp", "Amplitude Values", value = 5,
                 min = -100, max = 100, step = 5)
   ),

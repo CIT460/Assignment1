@@ -10,6 +10,8 @@ library(readxl)
 df = read_excel ("CityList.xlsx")
 cityDataFrame <- data.frame()
 
+cityDataFrame
+
 for(row in 1:nrow(head(df, 5))) {
   
 city.url <- (df[row,3])
